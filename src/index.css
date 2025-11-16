@@ -1,5 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap");
 @import "tailwindcss";
+
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap");
+
+/* your custom CSS below */
 
 @theme {
   --font-playfair: Playfair Display, "sans-serif";

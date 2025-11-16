@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
+import { useTheme } from "../context/ThemeContext";
 import SearchBar from "../components/SearchBar";
 import CategoryFilter from "../components/CategoryFilter";
 import HeroNews from "../components/HeroNews";
 import NewsGrid from "../components/NewsGrid";
 
 export default function Home() {
-  const [category, setCategory] = useState("all"); // default All
+  const { isDark } = useTheme();
+
+  const [category, setCategory] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [heroArticle, setHeroArticle] = useState(null);
   const [gridArticles, setGridArticles] = useState([]);
@@ -13,7 +16,7 @@ export default function Home() {
   const [loadingGrid, setLoadingGrid] = useState(true);
   const [error, setError] = useState("");
 
-  // Load HeroNews first (general/top article)
+  // Load Hero article
   useEffect(() => {
     const fetchHero = async () => {
       try {
@@ -38,7 +41,7 @@ export default function Home() {
     fetchHero();
   }, []);
 
-  // Load remaining articles (grid) and search/category updates
+  // Load grid articles + search/category
   useEffect(() => {
     const fetchGrid = async () => {
       try {
@@ -52,13 +55,12 @@ export default function Home() {
         const data = await res.json();
 
         if (data.articles && data.articles.length > 0) {
-          setHeroArticle(data.articles[0]); // HeroNews (may be same as related)
-          setGridArticles(data.articles); // 6 related articles
-          setError(""); // Clear any previous error
+          setHeroArticle(data.articles[0]);
+          setGridArticles(data.articles);
         } else {
           setHeroArticle(null);
           setGridArticles([]);
-          setError("No articles found for this category or search."); // Only show when truly empty
+          setError("No articles found for this category or search.");
         }
       } catch (err) {
         console.error(err);
@@ -72,8 +74,12 @@ export default function Home() {
   }, [category, searchTerm]);
 
   return (
-    <div className="font-playfair px-4 sm:px-10 py-6 max-w-4xl mx-auto">
-      {/* Search Bar */}
+    <div
+      className={`font-playfair px-4 sm:px-10 py-6 max-w-4xl mx-auto min-h-screen transition-colors duration-300 ${
+        isDark ? "bg-gray-900 text-gray-200" : "bg-gray-50 text-gray-900"
+      }`}
+    >
+      {/* Search */}
       <SearchBar onSearch={setSearchTerm} />
 
       {/* Categories */}
@@ -82,34 +88,39 @@ export default function Home() {
         onCategoryChange={setCategory}
       />
 
-      {/* Loading & Error */}
-      {(loadingHero || loadingGrid) && (
-        <div className="animate-pulse mt-8">
-          {/* Hero Skeleton */}
-          <div className="bg-gray-200 h-60 w-full rounded-md mb-6"></div>
-          {/* Grid Skeleton */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="bg-gray-200 h-40 rounded-md"></div>
-            <div className="bg-gray-200 h-40 rounded-md"></div>
-            <div className="bg-gray-200 h-40 rounded-md"></div>
-            <div className="bg-gray-200 h-40 rounded-md"></div>
-          </div>
-        </div>
+      {/* Hero Loading */}
+      {loadingHero ? (
+        <div
+          className={`h-60 w-full rounded-md mb-6 animate-pulse ${
+            isDark ? "bg-gray-700" : "bg-gray-200"
+          }`}
+        ></div>
+      ) : (
+        heroArticle && <HeroNews article={heroArticle} />
       )}
 
+      {/* Grid Loading */}
+      {loadingGrid ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-pulse mt-10">
+          {[...Array(4)].map((_, i) => (
+            <div
+              key={i}
+              className={`h-40 rounded-md ${
+                isDark ? "bg-gray-700" : "bg-gray-200"
+              }`}
+            ></div>
+          ))}
+        </div>
+      ) : (
+        gridArticles.length > 0 && <NewsGrid articles={gridArticles.slice(1)} />
+      )}
+
+      {/* Error */}
       {!loadingHero &&
         !loadingGrid &&
         !heroArticle &&
         gridArticles.length === 0 &&
         error && <p className="text-center text-red-500 mt-8">{error}</p>}
-
-      {/* Hero Section */}
-      {!loadingHero && heroArticle && <HeroNews article={heroArticle} />}
-
-      {/* News Grid */}
-      {!loadingGrid && gridArticles.length > 0 && (
-        <NewsGrid articles={gridArticles.slice(1)} />
-      )}
     </div>
   );
 }

@@ -1,13 +1,20 @@
 import { Link } from "react-router-dom";
+import { useTheme } from "../context/ThemeContext";
 
 export default function NewsGrid({ articles = [] }) {
+  const { isDark } = useTheme();
+
   if (!articles || articles.length === 0) {
     return (
       <section className="mt-10">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">
+        <h2
+          className={`text-2xl font-bold mb-6 ${
+            isDark ? "text-gray-100" : "text-gray-900"
+          }`}
+        >
           Recent Articles
         </h2>
-        <p className="text-center text-gray-500">
+        <p className={isDark ? "text-gray-400" : "text-gray-500"}>
           No related articles found for this search.
         </p>
       </section>
@@ -16,7 +23,14 @@ export default function NewsGrid({ articles = [] }) {
 
   return (
     <section className="mt-10">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Recent Articles</h2>
+      <h2
+        className={`text-2xl font-bold mb-6 ${
+          isDark ? "text-gray-100" : "text-gray-900"
+        }`}
+      >
+        Recent Articles
+      </h2>
+
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {articles.map((article, i) => {
           const slug = encodeURIComponent(article.title);
@@ -27,7 +41,13 @@ export default function NewsGrid({ articles = [] }) {
               key={i}
               className="block"
             >
-              <article className="space-y-4 hover:opacity-90 transition">
+              <article
+                className={`space-y-4 hover:opacity-90 transition rounded-xl ${
+                  isDark
+                    ? "bg-gray-900 text-gray-200"
+                    : "bg-gray-50 text-gray-800"
+                }`}
+              >
                 <div className="overflow-hidden rounded-xl">
                   <img
                     src={article.urlToImage}
@@ -35,14 +55,31 @@ export default function NewsGrid({ articles = [] }) {
                     className="w-full h-52 object-cover"
                   />
                 </div>
+
                 <div className="p-4">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-1 hover:text-blue-600 transition-colors duration-200">
+                  <h3
+                    className={`text-lg font-semibold mb-1 transition-colors duration-200 ${
+                      isDark
+                        ? "text-gray-100 hover:text-blue-400"
+                        : "text-gray-900 hover:text-blue-600"
+                    }`}
+                  >
                     {article.title}
                   </h3>
-                  <p className="text-gray-600 text-sm mb-3 leading-relaxed line-clamp-3">
+
+                  <p
+                    className={`text-sm mb-3 leading-relaxed line-clamp-3 ${
+                      isDark ? "text-gray-400" : "text-gray-600"
+                    }`}
+                  >
                     {article.description}
                   </p>
-                  <p className="text-gray-400 text-xs">
+
+                  <p
+                    className={
+                      isDark ? "text-gray-500 text-xs" : "text-gray-400 text-xs"
+                    }
+                  >
                     {article.publishedAt
                       ? new Date(article.publishedAt).toDateString()
                       : ""}

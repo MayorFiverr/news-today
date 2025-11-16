@@ -7,8 +7,10 @@ import {
   FiShare2,
   FiSend,
 } from "react-icons/fi";
+import { useTheme } from "../context/ThemeContext";
 
 export default function SinglePost() {
+  const { isDark } = useTheme();
   const { slug } = useParams();
   const { state } = useLocation();
 
@@ -110,7 +112,11 @@ export default function SinglePost() {
 
   if (loading) {
     return (
-      <div className="max-w-4xl mx-auto px-6 py-10">
+      <div
+        className={`max-w-4xl mx-auto px-6 py-10 ${
+          isDark ? "text-gray-100" : "text-gray-900"
+        }`}
+      >
         <div className="animate-pulse space-y-6">
           <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-1/4" />
           <div className="h-16 bg-gray-200 dark:bg-gray-700 rounded w-full" />
@@ -123,7 +129,11 @@ export default function SinglePost() {
   if (!article) {
     return (
       <div className="max-w-4xl mx-auto px-6 py-10 text-center">
-        <p className="text-gray-600 dark:text-gray-400">
+        <p
+          className={`text-gray-600 ${
+            isDark ? "text-gray-100" : "text-gray-600"
+          }`}
+        >
           Article not found or no longer available.
         </p>
       </div>
@@ -131,36 +141,45 @@ export default function SinglePost() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-10 font-playfair text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-900 transition-colors">
-      {/* Breadcrumb */}
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
+    <div
+      className={`max-w-4xl mx-auto px-6 py-10 font-playfair transition-colors duration-300 ${
+        isDark ? "text-gray-100" : "text-gray-900"
+      }`}
+    >
+      <p
+        className={`text-sm   mb-3 ${
+          isDark ? "text-gray-200" : "text-gray-500"
+        }`}
+      >
         News / {article.source?.name || "General"}
       </p>
 
-      {/* Title */}
       <h1 className="text-2xl sm:text-4xl font-extrabold leading-tight mb-4">
         {article.title}
       </h1>
 
-      {/* Author + Date */}
-      <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
+      <p
+        className={`text-sm mb-6 ${isDark ? "text-gray-100" : "text-gray-600"}`}
+      >
         {article.author ? `By ${article.author}` : "By Unknown Author"} ·
         Published on {pubDate || article.publishedAt || ""}
       </p>
 
-      {/* Hero image */}
       {article.urlToImage && (
         <div className="rounded-xl overflow-hidden mb-6">
           <img
             src={article.urlToImage}
             alt={article.title}
-            className="w-full h-[420px] object-cover"
+            className="w-full  object-cover h-52 sm:h-[420px] md:h-[420px]]"
           />
         </div>
       )}
 
-      {/* Content */}
-      <div className="prose prose-lg prose-invert dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 mb-6">
+      <div
+        className={`prose prose-lg max-w-none   mb-6  ${
+          isDark ? "text-gray-100" : "text-gray-600"
+        }`}
+      >
         <div
           dangerouslySetInnerHTML={{
             __html:
@@ -180,19 +199,22 @@ export default function SinglePost() {
           Read the full story →
         </a>
       </div>
-
       <hr className="border-t border-gray-200 dark:border-gray-700 mb-3" />
 
       {/* Actions */}
-      <div className="w-full flex justify-center mb-3">
-        <div className="flex flex-wrap items-center justify-center gap-4 text-gray-600 dark:text-gray-400">
+      <div
+        className={`w-full flex justify-center mb-3 ${
+          isDark ? "text-gray-100" : "text-gray-600"
+        }`}
+      >
+        <div className="flex flex-wrap items-center justify-center gap-4">
           <button
             type="button"
             onClick={() => setLikes((l) => l + 1)}
             className="flex items-center gap-2 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md"
           >
             <FiHeart className="w-5 h-5" />
-            <span className="text-sm hidden sm:inline">
+            <span className="text-xs">
               {likes >= 1000
                 ? `${Math.round((likes / 1000) * 10) / 10}k`
                 : likes}
@@ -201,7 +223,7 @@ export default function SinglePost() {
 
           <div className="flex items-center gap-2 px-3 py-2 rounded-md">
             <FiMessageCircle className="w-5 h-5" />
-            <span className="text-sm hidden sm:inline">{comments.length}</span>
+            <span className="text-xs">{comments.length}</span>
           </div>
 
           <button
@@ -217,7 +239,7 @@ export default function SinglePost() {
             className="flex items-center gap-2 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md"
           >
             <FiBookmark className="w-5 h-5" />
-            <span className="text-sm hidden sm:inline">Save</span>
+            <span className="text-xs">Save</span>
           </button>
 
           <button
@@ -241,7 +263,7 @@ export default function SinglePost() {
             className="flex items-center gap-2 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md"
           >
             <FiShare2 className="w-5 h-5" />
-            <span className="text-sm hidden sm:inline">Share</span>
+            <span className="text-xs">Share</span>
           </button>
         </div>
       </div>
@@ -263,7 +285,11 @@ export default function SinglePost() {
                 {r.source?.name || "General"}
               </p>
 
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
+              <h3
+                className={`text-lg font-semibold  mb-1 group-hover:text-blue-600  transition-colors duration-200 ${
+                  isDark ? "text-gray-100" : "text-gray-600"
+                }`}
+              >
                 {r.title}
               </h3>
 
@@ -289,7 +315,7 @@ export default function SinglePost() {
         ))}
       </div>
 
-      {/* COMMENTS */}
+      {/* Comments + Replies */}
       <h3 className="text-2xl font-semibold mb-6">
         Comments ({comments.length})
       </h3>
@@ -317,10 +343,15 @@ export default function SinglePost() {
                     {c.date}
                   </p>
                 </div>
-                <p className="text-gray-700 dark:text-gray-300 mt-1">
+                <p
+                  className={` mt-1 ${
+                    isDark ? "text-gray-100" : "text-gray-600"
+                  }`}
+                >
                   {c.text}
                 </p>
 
+                {/* Reply + View Replies */}
                 <div className="mt-2 flex items-center gap-4">
                   <button
                     onClick={() =>
@@ -332,7 +363,7 @@ export default function SinglePost() {
                         )
                       )
                     }
-                    className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+                    className="text-sm text-blue-600  hover:underline"
                   >
                     Reply
                   </button>
@@ -348,7 +379,7 @@ export default function SinglePost() {
                           )
                         )
                       }
-                      className="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"
+                      className="text-sm text-gray-600  hover:text-blue-600 "
                     >
                       {c.showReplies
                         ? "Hide replies"
@@ -359,7 +390,7 @@ export default function SinglePost() {
                   )}
                 </div>
 
-                {/* Reply input */}
+                {/* Reply Input */}
                 {c.showReplyBox && (
                   <div className="mt-3">
                     <textarea
@@ -374,7 +405,7 @@ export default function SinglePost() {
                           )
                         )
                       }
-                      className="w-full border border-gray-200 dark:border-gray-700 rounded-lg p-3 text-sm min-h-[60px] resize-none focus:outline-none focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-400 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+                      className="w-full border border-gray-200 dark:border-gray-700 rounded-lg p-3 text-sm min-h-[60px] resize-none focus:outline-none focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-400 bg-transparent text-gray-900 dark:text-gray-100"
                     />
                     <div className="text-right mt-2">
                       <button
@@ -436,7 +467,11 @@ export default function SinglePost() {
                               {r.date}
                             </p>
                           </div>
-                          <p className="text-gray-700 dark:text-gray-300 text-sm mt-1">
+                          <p
+                            className={` text-sm mt-1 ${
+                              isDark ? "text-gray-100" : "text-gray-600"
+                            }`}
+                          >
                             {r.text}
                           </p>
                         </div>
@@ -466,7 +501,9 @@ export default function SinglePost() {
               value={commentText}
               onChange={(e) => setCommentText(e.target.value)}
               placeholder="Add a comment..."
-              className="w-full border border-gray-200 dark:border-gray-700 rounded-lg p-4 min-h-[72px] resize-none focus:outline-none focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-400 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+              className={`w-full border border-gray-200 rounded-lg p-4 min-h-[72px] resize-none focus:outline-none focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-400 bg-transparent  ${
+                isDark ? "text-gray-100" : "text-gray-600"
+              }`}
             />
             <div className="text-right mt-3">
               <button
