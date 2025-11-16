@@ -18,3 +18,25 @@
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
 }
+
+/* Fix huge images inside article */
+.prose img,
+.prose picture,
+.prose figure,
+.prose video {
+  width: 100% !important;
+  height: auto !important;
+  object-fit: cover !important;
+}
+
+/* Fix videos (sometimes appear tiny or stretched) */
+.prose iframe {
+  width: 100% !important;
+  height: auto !important;
+}
+
+/* Prevent text from squishing together on small screens */
+.prose p {
+  margin-bottom: 1rem;
+  line-height: 1.7;
+}

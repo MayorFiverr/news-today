@@ -6,13 +6,19 @@ import Home from "./pages/Home";
 import SinglePost from "./pages/SingleNews";
 import Footer from "./components/Footer";
 function App() {
-  const [darkMode, setDarkMode] = useState(false);
-
-  // Load from localStorage if available
-  useEffect(() => {
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window === "undefined") return false;
     const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark") setDarkMode(true);
-  }, []);
+    if (savedTheme === "dark") return true;
+    if (savedTheme === "light") return false;
+    // Fallback to user's OS preference
+    if (
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    )
+      return true;
+    return false;
+  });
 
   // Apply theme to document
   useEffect(() => {

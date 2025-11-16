@@ -8,12 +8,6 @@ import {
   FiSend,
 } from "react-icons/fi";
 
-// Utility function to strip HTML
-function stripHtml(html) {
-  if (!html) return "";
-  return html.replace(/<[^>]*>?/gm, "").trim();
-}
-
 export default function SinglePost() {
   const { slug } = useParams();
   const { state } = useLocation();
@@ -35,7 +29,7 @@ export default function SinglePost() {
           name: "Olivia Bennett",
           avatar: "../images/download (1).jpeg",
           date: "July 27, 2024",
-          text: "I agree! The focus on ethical considerations is also very important.",
+          text: "I agree! The focus on ethical considerations is also very important!",
         },
       ],
     },
@@ -137,7 +131,7 @@ export default function SinglePost() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-10 font-playfair text-gray-900 dark:text-gray-100 transition-colors">
+    <div className="max-w-4xl mx-auto px-6 py-10 font-playfair text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-900 transition-colors">
       {/* Breadcrumb */}
       <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
         News / {article.source?.name || "General"}
@@ -166,7 +160,7 @@ export default function SinglePost() {
       )}
 
       {/* Content */}
-      <div className="prose prose-lg max-w-none text-gray-700 dark:text-gray-300 mb-6">
+      <div className="prose prose-lg prose-invert dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 mb-6">
         <div
           dangerouslySetInnerHTML={{
             __html:
@@ -256,7 +250,7 @@ export default function SinglePost() {
 
       {/* Related Articles */}
       <h2 className="text-3xl font-bold mb-6">Related Articles</h2>
-      <div className="grid grid-cols-2 gap-8 mb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-10">
         {related.map((r, i) => (
           <Link
             key={i}
@@ -282,22 +276,20 @@ export default function SinglePost() {
               </p>
             </div>
 
-            <div className="w-36 h-36 rounded-xl overflow-hidden flex-shrink-0">
+            <div className="w-36 h-36 rounded-xl overflow-hidden flex-shrink-0 bg-gray-200 dark:bg-gray-800">
               {r.urlToImage ? (
                 <img
                   src={r.urlToImage}
                   alt={r.title}
                   className="w-full h-full object-cover"
                 />
-              ) : (
-                <div className="w-full h-full bg-gray-200 dark:bg-gray-800" />
-              )}
+              ) : null}
             </div>
           </Link>
         ))}
       </div>
 
-      {/* 💬 COMMENTS */}
+      {/* COMMENTS */}
       <h3 className="text-2xl font-semibold mb-6">
         Comments ({comments.length})
       </h3>
@@ -382,7 +374,7 @@ export default function SinglePost() {
                           )
                         )
                       }
-                      className="w-full border border-gray-200 dark:border-gray-700 rounded-lg p-3 text-sm min-h-[60px] resize-none focus:outline-none focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-400"
+                      className="w-full border border-gray-200 dark:border-gray-700 rounded-lg p-3 text-sm min-h-[60px] resize-none focus:outline-none focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-400 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                     />
                     <div className="text-right mt-2">
                       <button
@@ -474,7 +466,7 @@ export default function SinglePost() {
               value={commentText}
               onChange={(e) => setCommentText(e.target.value)}
               placeholder="Add a comment..."
-              className="w-full border border-gray-200 dark:border-gray-700 rounded-lg p-4 min-h-[72px] resize-none focus:outline-none focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-400 bg-transparent text-gray-900 dark:text-gray-100"
+              className="w-full border border-gray-200 dark:border-gray-700 rounded-lg p-4 min-h-[72px] resize-none focus:outline-none focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-400 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
             />
             <div className="text-right mt-3">
               <button
