@@ -1,0 +1,20 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-playfair: Playfair Display, "sans-serif";
+  --font-poppins-bold: 800;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+/* Smooth horizontal momentum scroll on mobile */
+.scroll-smooth {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
