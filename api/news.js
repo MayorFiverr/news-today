@@ -1,4 +1,3 @@
-// /api/news.js (Updated: Only articles with images and category attached)
 import { extract } from "@extractus/article-extractor";
 
 export default async function handler(req, res) {
@@ -90,7 +89,6 @@ export default async function handler(req, res) {
     // Randomize and limit
     let finalArticles = articles.sort(() => Math.random() - 0.5).slice(0, 7);
 
-    // Enrich with full article text
     finalArticles = await Promise.all(finalArticles.map(enrichWithFullText));
 
     res.status(200).json({ articles: finalArticles });

@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import SinglePost from "./pages/SingleNews";
+import ScrollToTop from "./components/ScrollToTop";
 import { ThemeProvider, useTheme } from "./context/ThemeContext";
 
 function AppContent() {
@@ -17,10 +18,12 @@ function AppContent() {
       } min-h-screen transition-colors duration-300`}
     >
       <Navbar darkMode={isDark} toggleDarkMode={toggleTheme} />
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/news/:slug" element={<SinglePost />} />
       </Routes>
+
       <Footer />
     </div>
   );
@@ -30,6 +33,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <Router>
+        <ScrollToTop />
         <AppContent />
       </Router>
     </ThemeProvider>

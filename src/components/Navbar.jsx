@@ -8,6 +8,7 @@ export default function Navbar() {
   const { isDark, toggleTheme } = useTheme();
 
   const navLinks = [
+    "All",
     "Top Stories",
     "World",
     "Politics",

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "../context/ThemeContext";
-import SearchBar from "../components/SearchBar";
-import CategoryFilter from "../components/CategoryFilter";
-import HeroNews from "../components/HeroNews";
-import NewsGrid from "../components/NewsGrid";
+import SearchBar from "../components/HomeComponents/SearchBar";
+import CategoryFilter from "../components/HomeComponents/CategoryFilter";
+import HeroNews from "../components/HomeComponents/HeroNews";
+import NewsGrid from "../components/HomeComponents/NewsGrid";
 
 export default function Home() {
   const { isDark } = useTheme();

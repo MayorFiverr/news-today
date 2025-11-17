@@ -1,4 +1,4 @@
-import { useTheme } from "../context/ThemeContext";
+import { useTheme } from "../../context/ThemeContext";
 import { Link } from "react-router-dom";
 
 export default function HeroNews({ article }) {

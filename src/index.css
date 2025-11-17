@@ -1,12 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope&display=swap");
 @import "tailwindcss";
-
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap");
 
 /* your custom CSS below */
 
 @theme {
-  --font-playfair: Playfair Display, "sans-serif";
-  --font-poppins-bold: 800;
+  --font-playfair: Manrope, "sans-serif";
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -28,8 +26,10 @@
 .prose figure,
 .prose video {
   width: 100% !important;
+  max-height: 420px !important;
   height: auto !important;
   object-fit: cover !important;
+  border-radius: 0.5rem;
 }
 
 /* Fix videos (sometimes appear tiny or stretched) */
@@ -42,4 +42,14 @@
 .prose p {
   margin-bottom: 1rem;
   line-height: 1.7;
+}
+
+@media (max-width: 640px) {
+  .prose img,
+  .prose picture,
+  .prose figure,
+  .prose video {
+    max-height: 280px !important;
+    height: auto !important;
+  }
 }

@@ -22,7 +22,7 @@ export default function ArticleActions({
 
   return (
     <div
-      className={`w-full flex justify-center mb-3 ${
+      className={`w-full flex justify-center mb-3 duration-300 ${
         isDark ? "text-gray-100" : "text-gray-600"
       }`}
     >

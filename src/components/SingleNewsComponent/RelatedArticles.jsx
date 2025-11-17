@@ -15,7 +15,7 @@ export default function RelatedArticles({ related, isDark }) {
           >
             <div className="flex-1">
               <p className="text-sm text-blue-600 dark:text-blue-400 mb-2">
-                {r.source?.name || "General"}
+                {r.category || "Top Stories"}
               </p>
               <h3
                 className={`text-lg font-semibold mb-1 group-hover:text-blue-600 transition-colors duration-200 ${

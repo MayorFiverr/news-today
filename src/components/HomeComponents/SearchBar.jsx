@@ -8,7 +8,7 @@ export default function SearchBar({ onSearch }) {
   useEffect(() => {
     const handler = setTimeout(() => {
       onSearch(query);
-    }, 500); // 500ms delay
+    }, 500);
 
     return () => clearTimeout(handler);
   }, [query, onSearch]);
