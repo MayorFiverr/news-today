@@ -91,7 +91,7 @@ export default function Home() {
       {/* Hero Loading */}
       {loadingHero ? (
         <div
-          className={`h-60 w-full rounded-md mb-6 animate-pulse ${
+          className={`h-60 w-full rounded-md mb-6 animate-pulse duration-300 ${
             isDark ? "bg-gray-700" : "bg-gray-200"
           }`}
         ></div>
@@ -105,7 +105,7 @@ export default function Home() {
           {[...Array(4)].map((_, i) => (
             <div
               key={i}
-              className={`h-40 rounded-md ${
+              className={`h-40 rounded-md duration-300 ${
                 isDark ? "bg-gray-700" : "bg-gray-200"
               }`}
             ></div>

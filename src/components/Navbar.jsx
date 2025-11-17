@@ -18,7 +18,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`border-b sticky top-0 z-50 transition-colors ${
+      className={`border-b sticky top-0 z-50 transition-colors duration-300 ${
         isDark
           ? "bg-gray-900 border-gray-700 text-gray-200"
           : "bg-gray-50 border-gray-200 text-gray-800"
@@ -27,12 +27,12 @@ export default function Navbar() {
       <div className="font-playfair max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-8">
-            <div className="flex items-center space-x-2">
+            <a href="/" className="flex items-center space-x-2">
               <div className="text-blue-600 text-2xl">📰</div>
               <span className="font-extrabold text-2xl tracking-[0.1rem] text-inherit">
                 News Today
               </span>
-            </div>
+            </a>
 
             <div className="hidden lg:flex space-x-6">
               {navLinks.map((link) => (
@@ -69,7 +69,7 @@ export default function Navbar() {
             </button>
 
             <FiBell
-              className={` w-5 h-5" ${
+              className={`w-5 h-5 ${
                 isDark ? "text-gray-100" : "text-gray-600"
               }`}
             />

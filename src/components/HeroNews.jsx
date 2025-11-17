@@ -1,4 +1,5 @@
 import { useTheme } from "../context/ThemeContext";
+import { Link } from "react-router-dom";
 
 export default function HeroNews({ article }) {
   const { isDark } = useTheme();
@@ -32,14 +33,13 @@ export default function HeroNews({ article }) {
         </p>
 
         {display.url && (
-          <a
-            href={display.url}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            to={`/news/${display.title}`}
+            state={{ article: display }}
             className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg font-semibold text-sm sm:text-base transition"
           >
             Read More
-          </a>
+          </Link>
         )}
       </div>
     </section>

@@ -1,4 +1,4 @@
-// /api/news.js (Updated with article-extractor for full article text)
+// /api/news.js (Updated: Only articles with images and category attached)
 import { extract } from "@extractus/article-extractor";
 
 export default async function handler(req, res) {
@@ -17,32 +17,30 @@ export default async function handler(req, res) {
     "technology",
   ];
 
-  async function fetchNews(cat = "") {
+  async function fetchNews(cat = "", assignedCategory = "Top Stories") {
     const endpoint =
       `https://newsapi.org/v2/top-headlines?country=us` +
       `${cat ? `&category=${cat}` : ""}` +
       `${q ? `&q=${encodeURIComponent(q)}` : ""}` +
       `&pageSize=40&apiKey=${API_KEY}`;
 
-    console.log("Fetching endpoint:", endpoint);
-
     const response = await fetch(endpoint);
-
-    if (!response.ok) {
-      console.log("News Fetch Error:", response.status, await response.text());
-      return { articles: [] };
-    }
-
+    if (!response.ok) return { articles: [] };
     const data = await response.json();
-    console.log("Articles fetched:", data.articles?.length || 0);
 
+    if (data.articles) {
+      // Attach category to each article
+      data.articles = data.articles.map((a) => ({
+        ...a,
+        category: assignedCategory,
+      }));
+    }
     return data;
   }
 
   async function enrichWithFullText(article) {
     try {
       if (!article?.url) return article;
-
       const extracted = await extract(article.url);
       article.fullText = extracted?.content || "";
     } catch (err) {
@@ -56,25 +54,38 @@ export default async function handler(req, res) {
     let articles = [];
 
     if (q) {
-      let mappedCat = validCategories.includes(category) ? category : "";
-      const data = await fetchNews(mappedCat);
+      const mappedCat = validCategories.includes(category) ? category : "";
+      const data = await fetchNews(mappedCat, mappedCat || "Top Stories");
       articles = data.articles || [];
     } else if (category === "all") {
-      const mixCategories = ["general", "technology", "business", "science"];
-      const results = await Promise.all(mixCategories.map((c) => fetchNews(c)));
+      const mixCategories = [
+        { cat: "general", name: "Top Stories" },
+        { cat: "technology", name: "Technology" },
+        { cat: "business", name: "Business" },
+        { cat: "science", name: "Science" },
+      ];
+
+      const results = await Promise.all(
+        mixCategories.map((c) => fetchNews(c.cat, c.name))
+      );
       results.forEach((r) => {
         if (r.articles) articles.push(...r.articles);
       });
     } else if (["top", "world", "politics"].includes(category)) {
-      const data = await fetchNews("general");
+      const data = await fetchNews("general", "Top Stories");
       articles = data.articles || [];
     } else {
       const catToFetch = validCategories.includes(category)
         ? category
         : "general";
-      const data = await fetchNews(catToFetch);
+      const data = await fetchNews(catToFetch, catToFetch);
       articles = data.articles || [];
     }
+
+    // Filter out articles without a valid image
+    articles = articles.filter(
+      (a) => a.urlToImage && a.urlToImage.trim() !== ""
+    );
 
     // Randomize and limit
     let finalArticles = articles.sort(() => Math.random() - 0.5).slice(0, 7);

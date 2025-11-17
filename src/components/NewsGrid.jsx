@@ -24,7 +24,7 @@ export default function NewsGrid({ articles = [] }) {
   return (
     <section className="mt-10">
       <h2
-        className={`text-2xl font-bold mb-6 ${
+        className={`text-2xl font-bold mb-6 duration-300 ${
           isDark ? "text-gray-100" : "text-gray-900"
         }`}
       >
@@ -42,7 +42,7 @@ export default function NewsGrid({ articles = [] }) {
               className="block"
             >
               <article
-                className={`space-y-4 hover:opacity-90 transition rounded-xl ${
+                className={`space-y-4 hover:opacity-90 transition rounded-xl duration-300 ${
                   isDark
                     ? "bg-gray-900 text-gray-200"
                     : "bg-gray-50 text-gray-800"
@@ -52,13 +52,14 @@ export default function NewsGrid({ articles = [] }) {
                   <img
                     src={article.urlToImage}
                     alt={article.title}
+                    onError={(e) => (e.currentTarget.style.display = "none")}
                     className="w-full h-52 object-cover"
                   />
                 </div>
 
                 <div className="p-4">
                   <h3
-                    className={`text-lg font-semibold mb-1 transition-colors duration-200 ${
+                    className={`text-lg font-semibold mb-1 transition-colors duration-300 ${
                       isDark
                         ? "text-gray-100 hover:text-blue-400"
                         : "text-gray-900 hover:text-blue-600"
@@ -68,7 +69,7 @@ export default function NewsGrid({ articles = [] }) {
                   </h3>
 
                   <p
-                    className={`text-sm mb-3 leading-relaxed line-clamp-3 ${
+                    className={`text-sm mb-3 leading-relaxed line-clamp-3 duration-300 ${
                       isDark ? "text-gray-400" : "text-gray-600"
                     }`}
                   >
