@@ -77,7 +77,9 @@ export default function Navbar() {
 
             {/* Mobile menu toggle */}
             <button
-              className="block lg:hidden text-gray-700 dark:text-gray-300"
+              className={`block lg:hidden duration-200 ${
+                isDark ? "text-gray-50" : "text-gray-700"
+              }`}
               onClick={() => setMenuOpen(!menuOpen)}
             >
               {menuOpen ? <FiX size={22} /> : <FiMenu size={22} />}
@@ -100,7 +102,9 @@ export default function Navbar() {
               <a
                 key={link}
                 href="#"
-                className="block py-2 px-4 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                className={`block py-2 px-4 text-sm font-medium text-gray-50 hover:text-blue-600 transition-colors duration-200 ${
+                  isDark ? "text-gray-50" : "text-gray-600"
+                }`}
               >
                 {link}
               </a>

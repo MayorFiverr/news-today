@@ -1,7 +1,30 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function RelatedArticles({ related, isDark }) {
+export default function RelatedArticles({ related, isDark, isLoading }) {
+  if (isLoading) {
+    return (
+      <div>
+        <h2 className="text-3xl font-bold mb-6">Related Articles</h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-10">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="flex items-start gap-6 animate-pulse">
+              <div className="flex-1 space-y-3">
+                <div className="h-4 w-24 bg-gray-300 dark:bg-gray-700 rounded"></div>
+                <div className="h-5 w-3/4 bg-gray-300 dark:bg-gray-700 rounded"></div>
+                <div className="h-4 w-5/6 bg-gray-300 dark:bg-gray-700 rounded"></div>
+                <div className="h-4 w-2/3 bg-gray-300 dark:bg-gray-700 rounded"></div>
+              </div>
+
+              <div className="w-36 h-36 rounded-xl bg-gray-300 dark:bg-gray-700"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <h2 className="text-3xl font-bold mb-6">Related Articles</h2>
@@ -17,6 +40,7 @@ export default function RelatedArticles({ related, isDark }) {
               <p className="text-sm text-blue-600 dark:text-blue-400 mb-2">
                 {r.category || "Top Stories"}
               </p>
+
               <h3
                 className={`text-lg font-semibold mb-1 group-hover:text-blue-600 transition-colors duration-200 ${
                   isDark ? "text-gray-100" : "text-gray-600"
@@ -24,9 +48,11 @@ export default function RelatedArticles({ related, isDark }) {
               >
                 {r.title}
               </h3>
+
               <p className="text-gray-600 dark:text-gray-400 text-sm mb-3 leading-relaxed line-clamp-3">
                 {r.description}
               </p>
+
               <p className="text-blue-600 dark:text-blue-400 font-bold">
                 Read More
               </p>

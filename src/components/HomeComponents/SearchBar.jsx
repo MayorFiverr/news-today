@@ -8,7 +8,7 @@ export default function SearchBar({ onSearch }) {
   useEffect(() => {
     const handler = setTimeout(() => {
       onSearch(query);
-    }, 500);
+    }, 500); // 500ms delay
 
     return () => clearTimeout(handler);
   }, [query, onSearch]);
@@ -21,7 +21,7 @@ export default function SearchBar({ onSearch }) {
         placeholder="Search for news, topics..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="bg-transparent outline-none w-full text-sm placeholder-gray-500"
+        className="bg-transparent outline-none w-full text-sm placeholder-gray-500 text-gray-700 "
       />
     </div>
   );

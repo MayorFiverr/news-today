@@ -160,8 +160,11 @@ export default function SinglePost() {
 
       <hr className="border-t border-gray-200 dark:border-gray-700 mb-6" />
 
-      {/* Related Articles */}
-      <RelatedArticles related={related} isDark={isDark} />
+      <RelatedArticles
+        related={related}
+        isDark={isDark}
+        isLoading={!related.length}
+      />
 
       {/* Comments */}
       <h3 className="text-2xl font-semibold mb-6">

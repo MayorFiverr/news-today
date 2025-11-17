@@ -24,7 +24,7 @@ export default function HeroNews({ article }) {
       <div className="absolute inset-0 bg-black/40" />
 
       <div className="relative z-10 p-6 sm:p-10 max-w-2xl">
-        <h1 className="text-3xl sm:text-4xl font-bold leading-snug mb-3 text-white">
+        <h1 className="text-3xl sm:text-4xl font-bold leading-snug mb-3 text-white line-clamp-4">
           {display.title}
         </h1>
 
