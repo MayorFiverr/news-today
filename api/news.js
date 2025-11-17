@@ -1,6 +1,16 @@
 import { extract } from "@extractus/article-extractor";
 
 export default async function handler(req, res) {
+  // --- CORS headers ---
+  res.setHeader("Access-Control-Allow-Origin", "*"); // allow all domains
+  res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  // Handle preflight requests
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
   const API_KEY = process.env.NEWS_API_KEY;
   const url = new URL(req.url, `http://${req.headers.host}`);
   const category = (url.searchParams.get("category") || "all").toLowerCase();
@@ -28,7 +38,6 @@ export default async function handler(req, res) {
     const data = await response.json();
 
     if (data.articles) {
-      // Attach category to each article
       data.articles = data.articles.map((a) => ({
         ...a,
         category: assignedCategory,
@@ -81,14 +90,11 @@ export default async function handler(req, res) {
       articles = data.articles || [];
     }
 
-    // Filter out articles without a valid image
     articles = articles.filter(
       (a) => a.urlToImage && a.urlToImage.trim() !== ""
     );
 
-    // Randomize and limit
     let finalArticles = articles.sort(() => Math.random() - 0.5).slice(0, 7);
-
     finalArticles = await Promise.all(finalArticles.map(enrichWithFullText));
 
     res.status(200).json({ articles: finalArticles });
